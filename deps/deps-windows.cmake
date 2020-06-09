@@ -61,7 +61,7 @@ ExternalProject_Add(dep_boost
     URL "https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz"
     URL_HASH SHA256=882b48708d211a5f48e60b0124cf5863c1534cd544ecd0664bb534a4b5d506e9
     BUILD_IN_SOURCE 1
-    CONFIGURE_COMMAND bootstrap.bat
+    CONFIGURE_COMMAND bootstrap.bat  --with-python=${PYTHON_CMD}  --with-python-root=${PYTHON_INSTALL_DIR} --with-python-version=3.6
     BUILD_COMMAND b2.exe
         -j "${NPROC}"
         --with-system
@@ -71,6 +71,8 @@ ExternalProject_Add(dep_boost
         --with-log
         --with-locale
         --with-regex
+        --with-python
+        include=${PYTHON_INCLUDE_DIR}/python3.6
         "--prefix=${DESTDIR}/usr/local"
         "address-model=${DEPS_BITS}"
         "toolset=${DEP_BOOST_TOOLSET}"

@@ -249,6 +249,17 @@ if (0)
     set(CMAKE_C_FLAGS "/MD /Od /Zi /DWIN32 /DTBB_USE_ASSERT")
 endif()
 
+#Find python for boost-python
+find_package(PythonInterp 3.6 REQUIRED)
+find_package(PythonLibs 3.6 EXACT REQUIRED)
+#find_package(PythonLibs 3.6.6 EXACT REQUIRED)
+message("PYTHONLIBS_FOUND ${PYTHONLIBS_FOUND}")
+message("PYTHON_LIBRARIES ${PYTHON_LIBRARIES}")
+message("PYTHON_INCLUDE_PATH ${PYTHON_INCLUDE_PATH}")
+message("PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIRS}")
+message("PYTHON_DEBUG_LIBRARIES ${PYTHON_DEBUG_LIBRARIES}")
+message("PYTHONLIBS_VERSION_STRING ${PYTHONLIBS_VERSION_STRING}")
+
 # Find and configure boost
 if(SLIC3R_STATIC)
     # Use static boost libraries.
@@ -264,6 +275,7 @@ if(NOT WIN32)
 endif()
 set(_boost_components "system;filesystem;thread;log;locale;regex;chrono;atomic;date_time")
 find_package(Boost ${MINIMUM_BOOST_VERSION} REQUIRED COMPONENTS ${_boost_components})
+#find_package(Boost ${MINIMUM_BOOST_VERSION} REQUIRED COMPONENTS python36)
 # boost compile only in release & debug. We have to force the release version for RELWITHDEBINFO compilation
 if (MSVC)
   set_target_properties(${Boost_LIBRARIES} PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
@@ -303,6 +315,7 @@ if(TARGET Boost::system)
     foreach(comp ${_boost_components})
         list(APPEND _boost_targets "Boost::${comp}")
     endforeach()
+#    list(APPEND _boost_targets "Boost::python36")
 
     target_link_libraries(boost_libs INTERFACE
         boost_headeronly # includes the custom compile definitions as well
@@ -310,7 +323,7 @@ if(TARGET Boost::system)
         )
     slic3r_remap_configs("${_boost_targets}" RelWithDebInfo Release)
 else()
-    target_include_directories(boost_headeronly INTERFACE ${Boost_INCLUDE_DIRS})
+    target_include_directories(boost_headeronly INTERFACE ${Boost_INCLUDE_DIRS}})#  ${PYTHON_INCLUDE_DIRS})
     target_link_libraries(boost_libs INTERFACE boost_headeronly ${Boost_LIBRARIES})
 endif()
 

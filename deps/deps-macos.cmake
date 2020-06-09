@@ -21,7 +21,7 @@ ExternalProject_Add(dep_boost
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./bootstrap.sh
         --with-toolset=clang
-        --with-libraries=system,iostreams,filesystem,thread,log,locale,regex
+        --with-libraries=system,iostreams,filesystem,thread,log,locale,regex,python
         "--prefix=${DESTDIR}/usr/local"
     BUILD_COMMAND ./b2
         -j ${NPROC}

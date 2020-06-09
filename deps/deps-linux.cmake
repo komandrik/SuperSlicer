@@ -2,6 +2,9 @@
 set(DEP_CMAKE_OPTS "-DCMAKE_POSITION_INDEPENDENT_CODE=ON")
 
 include("deps-unix-common.cmake")
+find_package(PythonInterp 3.6.6 REQUIRED)
+find_package(PythonLibs 3.6.6 EXACT REQUIRED)
+SET(PYTHON_CMD ${PYTHON_INSTALL_DIR}/bin/python)
 
 ExternalProject_Add(dep_boost
     EXCLUDE_FROM_ALL 1
@@ -9,7 +12,8 @@ ExternalProject_Add(dep_boost
     URL_HASH SHA256=882b48708d211a5f48e60b0124cf5863c1534cd544ecd0664bb534a4b5d506e9
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./bootstrap.sh
-        --with-libraries=system,iostreams,filesystem,thread,log,locale,regex
+        --with-libraries=system,iostreams,filesystem,thread,log,locale,regex,python
+        --with-python=${PYTHON_CMD}  --with-python-root=${PYTHON_INSTALL_DIR} --with-python-version=3.6
         "--prefix=${DESTDIR}/usr/local"
     BUILD_COMMAND ./b2
         -j ${NPROC}
@@ -20,6 +24,7 @@ ExternalProject_Add(dep_boost
         boost.locale.icu=off
         cflags=-fPIC
         cxxflags=-fPIC
+        --with-python include=${PYTHON_INCLUDE_DIR}/python3.6
         install
     INSTALL_COMMAND ""   # b2 does that already
 )

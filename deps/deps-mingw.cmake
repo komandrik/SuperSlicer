@@ -16,11 +16,13 @@ ExternalProject_Add(dep_boost
     BUILD_COMMAND b2.exe
         -j "${NPROC}"
         --with-system
+        --with-iostreams
         --with-filesystem
         --with-thread
         --with-log
         --with-locale
         --with-regex
+		--with-python
         "--prefix=${DESTDIR}/usr/local"
         "address-model=${DEPS_BITS}"
         "toolset=${DEP_BOOST_TOOLSET}"
