@@ -205,6 +205,36 @@ void FreeCADDialog::createSTC()
     m_text->StyleSetForeground(wxSTC_P_STRINGEOL, wxColour(0, 0, 0));
     m_text->StyleSetBackground(wxSTC_P_STRINGEOL, wxColour(224, 192, 224));
 
+
+    wxArrayString words;
+    words.push_back("cut");
+    words.push_back("union");
+    words.push_back("difference");
+    words.push_back("intersection");
+    words.push_back("cube");
+    words.push_back("cylinder");
+    words.push_back("move");
+    words.push_back("rotate");
+    words.push_back("poly_int");
+    words.push_back("poly_ext");
+    words.push_back("cone");
+    words.push_back("iso_thread");
+    words.push_back("solid_slices");
+    words.push_back("importStl");
+    words.push_back("line");
+    words.push_back("arc");
+    words.push_back("circle");
+    words.push_back("polygon");
+    words.push_back("bezier");
+    words.push_back("create_wire");
+    words.push_back("square");
+    words.push_back("text");
+    words.push_back("gear");
+    words.push_back("linear_extrude");
+    words.push_back("extrude");
+    words.push_back("rotate_extrude");
+    words.push_back("path_extrude");
+    m_text->AutoComplete(words);
 }
 
 void FreeCADDialog::on_dpi_changed(const wxRect& suggested_rect)
